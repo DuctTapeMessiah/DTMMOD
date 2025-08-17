@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "dtmbot-addon",
+  "version": "${version}",
+  "name": "DTMMOD",
+  "description": "Meteor Client addon by DuctTapeMessiah.",
+  "authors": ["DuctTapeMessiah"],
+  "contact": {
+    "repo": "https://github.com/DuctTapeMessiah/DTMMOD"
+  },
+  "license": "GPL-3.0",
+  "environment": "client",
+  "entrypoints": {
+    "meteor": [
+      "com.dtmmod.DTMMOD"
+
+    ]
+  },
+  "accessWidener": "dtmbot.accesswidener",
+  "mixins": [
+    "mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.7",
+    "minecraft": "1.21.4",
+    "meteor-client": ">=0.5.8"
+  }
+}
