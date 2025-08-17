@@ -1,85 +1,41 @@
-# Meteor Addon Template
+# DTMMOD
 
-A template to allow easy usage of the Meteor Addon API.
+DTMMOD is a Minecraft utility mod designed by DuctTapeMessiah with quality-of-life features.
 
-### How to use
+## Current Features
+- **DataLogger Module**: Tracks players entering/leaving the render range and logs direct messages to a file.
 
-- Clone this project
-- Use this template to create new modules/commands
-- Build the executable using the gradle `build` task.
-- Run the mod with Meteor.
+## Prerequisites
+To use DTMMOD, ensure you have the following installed:
+- **Minecraft**: Version 1.21.4
+- **Fabric Loader**: Version 0.16.9 or higher
+- **Meteor Client**: Latest version compatible with Minecraft 1.21.4
+- **Baritone**: Version Version 1.13.0
 
-### Project structure
+## Installation
+1. Install **Minecraft 1.21.4** via the Minecraft Launcher.
+2. Download and install the **Fabric Loader** (version 0.16.9 or higher) from [FabricMC](https://fabricmc.net/).
+3. Install **Meteor Client** (ensure compatibility with Minecraft 1.21.4) from [Meteor Client’s official site](https://meteorclient.com/).
+4. Install **Baritone** (version `baritone-api-fabric-1.13.0`) by following instructions from [Baritone’s GitHub](https://github.com/cabaletta/baritone).
+5. Download the latest DTMMOD `.jar` file from the [Releases](https://github.com/DuctTapeMessiah/DTMMOD/releases) page.
+6. Place the DTMMOD `.jar` file in your Minecraft `mods` folder (usually located at `~/.minecraft/mods` on Windows: `%appdata%\.minecraft\mods`).
+7. Launch Minecraft with the Fabric profile to load DTMMOD.
 
-```text
-.
-│── .github
-│   ╰── workflows
-│       │── dev_build.yml
-│       ╰── pull_request.yml
-│── gradle
-│   ╰── wrapper
-│       │── gradle-wrapper.jar
-│       ╰── gradle-wrapper.properties
-│── src
-│   ╰── main
-│       │── java
-│       │   ╰── com
-│       │       ╰── example
-│       │           ╰── addon
-│       │               │── commands
-│       │               │   ╰── CommandExample
-│       │               │── hud
-│       │               │   ╰── HudExample
-│       │               │── modules
-│       │               │   ╰── ModuleExample
-│       │               ╰── AddonTemplate
-│       ╰── resources
-│           │── assets
-│           │   ╰── template
-│           │       ╰── icon.png
-│           │── addon-template.mixins.json
-│           ╰── fabric.mod.json
-│── .editorconfig
-│── .gitignore
-│── build.gradle
-│── gradle.properties
-│── gradlew
-│── gradlew.bat
-│── LICENSE
-│── README.md
-╰── settings.gradle
-```
+## Features
+- **DataLogger Module**: Automatically tracks players entering or leaving the render range and logs direct messages to a file located in `~/.minecraft/DTMMOD/logs`.
+  - Logs are saved in a structured format for easy review.
+  - Configurable settings available through the **Meteor Client** interface (if enabled).
 
-This is the default project structure. Each folder/file has a specific purpose.  
-Here is a brief explanation of the ones you might need to modify:
-
-- `.github/workflows`: Contains the GitHub Actions configuration files.
-- `gradle`: Contains the Gradle wrapper files.  
-  Edit the `gradle.properties` file to change the version of the Gradle wrapper.
-- `src/main/java/com/example/addon`: Contains the main class of the addon.  
-  Here you can register your custom commands, modules, and HUDs.  
-  Edit the `getPackage` method to reflect the package of your addon.
-- `src/main/resources`: Contains the resources of the addon.
-    - `assets`: Contains the assets of the addon.  
-      You can add your own assets here, separated in subfolders.
-        - `template`: Contains the assets of the template.  
-          You can replace the `icon.png` file with your own addon icon.  
-          Also, rename this folder to reflect the name of your addon.
-    - `addon-template.mixins.json`: Contains the Mixin configuration for the addon.  
-      You can add your own mixins in the `client` array.
-    - `fabric.mod.json`: Contains the metadata of the addon.  
-      Edit the various fields to reflect the metadata of your addon.
-- `build.gradle.kts`: Contains the Gradle build script.  
-  You can manage the dependencies of the addon here.  
-  Remember to keep the `fabric-loom` version up-to-date.
-- `gradle.properties.kts`: Contains the properties of the Gradle build.  
-  These will be used by the build script.
-- `LICENSE`: Contains the license of the addon.  
-  You can edit this file to change the license of your addon.
-- `README.md`: Contains the documentation of the addon.  
-  You can edit this file to reflect the documentation of your addon, and showcase its features.
+## Contributing
+Contributions are welcome! To contribute:
+1. Fork this repository.
+2. Create a new branch (`git checkout -b feature/your-feature`).
+3. Make your changes and commit them (`git commit -m "Add your feature"`).
+4. Push to your branch (`git push origin feature/your-feature`).
+5. Open a pull request on this repository.
 
 ## License
+This project is licensed under the [MIT License](LICENSE).
 
-This template is available under the CC0 license. Feel free to use it for your own projects.
+## Contact
+For issues or suggestions, open an issue on this repository or contact DuctTapeMessiah on [GitHub](https://github.com/DuctTapeMessiah).
