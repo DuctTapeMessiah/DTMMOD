@@ -5,7 +5,10 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [],
   "client": [
-    "PlayerInventoryAccessor"
+    "PlayerInventoryAccessor",
+    "MapRendererAccessor",
+    "MapTextureAccessor",
+    "MapTextureManagerAccessor"
   ],
   "server": [],
   "injectors": {

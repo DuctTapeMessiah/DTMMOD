@@ -47,7 +47,6 @@ public class InventoryUtils {
         return count;
     }
 
-
     public static int getEmptySlotCount() {
         if (mc.player == null) return 0;
         int count = 0;
@@ -58,6 +57,7 @@ public class InventoryUtils {
         }
         return count;
     }
+
     public static int getHotbarSlot(Item item) {
         for (int i = 36; i < 44; i++) {
             if (mc.player.playerScreenHandler.getSlot(i).getStack().getItem() == item) {
@@ -99,6 +99,7 @@ public class InventoryUtils {
             }
         }
     }
+
     public static void clickSlotDelay(int slot, SlotActionType actionType, int button, int delayMs) {
         if (mc.interactionManager == null || mc.player == null) return;
 
@@ -120,6 +121,7 @@ public class InventoryUtils {
     public static void rightClickPickup(int slot, int delayMs) {
         clickSlotDelay(slot, SlotActionType.PICKUP, 1, delayMs);
     }
+
     public static List<StackAndSlot> getStacksWithSlots() {
         List<StackAndSlot> list = new ArrayList<>();
         for (int i = 0; i < 36; i++) {
@@ -169,7 +171,7 @@ public class InventoryUtils {
         for (int slot = 0; slot < 36; slot++) {
             ItemStack stack = mc.player.getInventory().getStack(slot);
             if (item == null && stack.isEmpty()) {
-                return slot; // Find empty slot
+                return slot;
             }
             if (stack.isOf(item)) {
                 if (nonEmpty) {
@@ -185,7 +187,7 @@ public class InventoryUtils {
                     if (item == Items.BUNDLE) {
                         BundleContentsComponent contents = stack.getOrDefault(DataComponentTypes.BUNDLE_CONTENTS, BundleContentsComponent.DEFAULT);
                         if (contents.isEmpty()) {
-                            return slot; // Empty bundle found
+                            return slot;
                         }
                     }
                 }
@@ -193,6 +195,7 @@ public class InventoryUtils {
         }
         return -1;
     }
+
     public static int findEmptyHotbarSlot() {
         for (int i = 0; i < 9; i++) {
             if (mc.player.getInventory().getStack(i).isEmpty()) {
@@ -203,12 +206,12 @@ public class InventoryUtils {
     }
 
     public static int findEmptySlot() {
-        for (int i = 2; i < 9; i++) { // Prioritize hotbar, skip 0 and 1
+        for (int i = 2; i < 9; i++) {
             if (mc.player.getInventory().getStack(i).isEmpty()) {
                 return i;
             }
         }
-        for (int i = 9; i < 36; i++) { // Then inventory
+        for (int i = 9; i < 36; i++) {
             if (mc.player.getInventory().getStack(i).isEmpty()) {
                 return i;
             }
@@ -243,7 +246,6 @@ public class InventoryUtils {
 
         return matchingSlots;
     }
-
 
     public record StackAndSlot(ItemStack itemStack, int slot) {}
 }

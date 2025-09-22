@@ -2,7 +2,7 @@ package com.dtmmod;
 
 import com.dtmmod.commands.CommandExample;
 import com.dtmmod.hud.HudExample;
-import com.dtmmod.modules.DataLogger;
+import com.dtmmod.modules.*;
 import com.mojang.logging.LogUtils;
 import meteordevelopment.meteorclient.addons.GithubRepo;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
@@ -24,12 +24,14 @@ public class DTMMOD extends MeteorAddon {
 
         // Modules
         Modules.get().add(new DataLogger());
+        Modules.get().add(new MapArtDownloader());
+        Modules.get().add(new FarmingSimulator());
 
         // Commands
-        Commands.add(new CommandExample());
+        // Commands.add(new CommandExample());
 
         // HUD
-        Hud.get().register(HudExample.INFO);
+        // Hud.get().register(HudExample.INFO);
     }
 
     @Override

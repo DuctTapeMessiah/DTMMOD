@@ -29,8 +29,8 @@ import java.util.stream.Collectors;
 public class DataLogger extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
 
-    // Enum to define logging types
     public enum LogType {
+        OFF,
         PLAYER_DETECTION,
         DIRECT_MESSAGES,
         ALL
@@ -39,14 +39,14 @@ public class DataLogger extends Module {
     private final Setting<LogType> logType = sgGeneral.add(new EnumSetting.Builder<LogType>()
         .name("log-type")
         .description("Select which events to log.")
-        .defaultValue(LogType.ALL)
+        .defaultValue(LogType.OFF)
         .build()
     );
 
     private final Setting<Boolean> logToFile = sgGeneral.add(new BoolSetting.Builder()
         .name("log-to-file")
         .description("Enables logging to files.")
-        .defaultValue(true)
+        .defaultValue(false)
         .build()
     );
 
@@ -94,7 +94,6 @@ public class DataLogger extends Module {
             .map(player -> player.getName().getString())
             .collect(Collectors.toSet());
 
-        // Handle players entering render
         for (PlayerEntity player : nearbyPlayers) {
             String playerName = player.getName().getString();
             if (!playersInRange.contains(playerName)) {

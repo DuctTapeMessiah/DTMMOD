@@ -23,17 +23,12 @@ repositories {
 }
 
 dependencies {
-    // Fabric
 
     minecraft("com.mojang:minecraft:${properties["minecraft_version"] as String}")
     mappings("net.fabricmc:yarn:${properties["yarn_mappings"] as String}:v2")
     modImplementation("net.fabricmc:fabric-loader:${properties["loader_version"] as String}")
-
-    // Meteor
     modImplementation("meteordevelopment:meteor-client:${properties["minecraft_version"] as String}-SNAPSHOT")
-    implementation(files("libs/baritone-api-fabric-1.13.0.jar"))
-    // implementation(files("libs/litematica-fabric-1.21.4-0.21.3.jar"))
-
+    modImplementation(files("libs/baritone-api-fabric-1.13.0.jar"))
 }
 
 tasks {

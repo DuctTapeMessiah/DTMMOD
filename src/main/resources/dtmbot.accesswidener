@@ -1,6 +1,9 @@
-accessWidener v1 named
+accessWidener v2 named
 
-
-
-
-
+accessible class net/minecraft/client/texture/MapTextureManager
+accessible class net/minecraft/client/texture/MapTextureManager$MapTexture
+accessible field net/minecraft/client/texture/MapTextureManager texturesByMapId Lit/unimi/dsi/fastutil/ints/Int2ObjectMap;
+accessible method net/minecraft/client/texture/MapTextureManager getMapTexture (Lnet/minecraft/component/type/MapIdComponent;Lnet/minecraft/item/map/MapState;)Lnet/minecraft/client/texture/MapTextureManager$MapTexture;
+accessible class net/minecraft/client/texture/NativeImageBackedTexture
+accessible method net/minecraft/client/texture/NativeImageBackedTexture getImage ()Lnet/minecraft/client/texture/NativeImage;
+accessible method net/minecraft/block/MapColor$Brightness get (I)Lnet/minecraft/block/MapColor$Brightness;

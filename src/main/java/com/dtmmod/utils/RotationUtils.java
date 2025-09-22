@@ -20,16 +20,16 @@ public class RotationUtils {
                 mc.player.getYaw(),
                 mc.player.getPitch(),
                 mc.player.isOnGround(),
-                false // changePosition set to false since we're only updating rotation
+                false
             ));
         }
     }
 
-    public static void rotateTo(Vec3d vec) { // No Packet
+    public static void rotateTo(Vec3d vec) {
         rotateTo(vec, false);
     }
 
-    public static void rotateTo(BlockPos pos, double yAdd, Direction setDirection) { // Best direction
+    public static void rotateTo(BlockPos pos, double yAdd, Direction setDirection) {
         Direction closestDirection = Direction.UP;
         boolean directionSet = false;
 
@@ -126,14 +126,13 @@ public class RotationUtils {
         float yawDiff = MathHelper.wrapDegrees(required[0] - mc.player.getYaw());
         float pitchDiff = MathHelper.wrapDegrees(required[1] - mc.player.getPitch());
 
-        // Adjust these thresholds to be stricter or looser
         return Math.abs(yawDiff) < 3.0f && Math.abs(pitchDiff) < 3.0f;
     }
     public static boolean isLookingAtEntity(Entity target) {
         Vec3d camera = mc.player.getCameraPosVec(1.0F);
         Vec3d lookVec = mc.player.getRotationVec(1.0F);
-        Vec3d reachVec = camera.add(lookVec.multiply(4.5)); // default reach for survival
-        Box box = target.getBoundingBox().expand(0.3); // Add margin to ensure detection
+        Vec3d reachVec = camera.add(lookVec.multiply(4.5));
+        Box box = target.getBoundingBox().expand(0.3);
         Optional<Vec3d> hit = box.raycast(camera, reachVec);
 
         return hit.isPresent();

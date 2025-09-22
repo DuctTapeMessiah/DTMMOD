@@ -9,10 +9,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.*;
 import java.util.List;
 import java.util.function.BooleanSupplier;
@@ -40,7 +36,7 @@ public class Utils {
         try {
             return new String[]{input.substring(0, i), input.substring(i + 1)};
         } catch (Exception ignored) {
-            return new String[]{"", ""}; // FIXED: changed {} to []
+            return new String[]{"", ""};
         }
     }
 
@@ -89,7 +85,6 @@ public class Utils {
         List<String> list = new ArrayList<>();
         String current = "";
         for (String space : string.split(" ")) {
-            // Replace this with your actual font width logic if you care to keep it
             int measured = mc.textRenderer.getWidth(current + " " + space);
             if (measured >= width - 2) {
                 list.add(current);
@@ -123,4 +118,5 @@ public class Utils {
         String[] split = s.split(",");
         return new Vec3d(Double.parseDouble(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2]));
     }
+
 }
