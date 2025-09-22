@@ -2,8 +2,19 @@
 
 DTMMOD is a Minecraft utility mod designed by DuctTapeMessiah with quality-of-life features.
 
-## Current Features
-- **DataLogger Module**: Tracks players entering/leaving the render range and logs direct messages to a file.
+## Features
+- **Farming Simulator 26**: Automates farming tasks.
+    - Converting mycelium to dirt paths (with mushroom breaking)
+    - Tilling blocks to farmland, and planting seeds/crops on farmland within configurable ranges.
+    - Supports Baritone pathing, tool/inventory management, light level checks, and chat feedback.
+
+- **Mapart Downloader**: Automatically detects item frames with filled maps in render distance, downloads individual map images as PNGs, and stitches connected clusters (by adjacency or name prefix) into larger images saved in DTMMOD/maps/ subfolders.
+    - Stitch by cluster or by name (work-in-progress, to seperate multiple mapart in single arrays)
+    - UUIDs are saved for clusters to prevent partially rendered issues. Stitch file will update if more IDs are rendered
+
+- **DataLogger Module**: Automatically tracks players entering or leaving the render range and logs direct messages to a file located in `~/.minecraft/DTMMOD/logs`.
+  - Logs are saved in a structured format for easy review.
+  - Configurable settings available through the **Meteor Client** interface (if enabled).
 
 ## Prerequisites
 To use DTMMOD, ensure you have the following installed:
@@ -20,20 +31,6 @@ To use DTMMOD, ensure you have the following installed:
 5. Download the latest DTMMOD `.jar` file from the [Releases](https://github.com/DuctTapeMessiah/DTMMOD/releases) page.
 6. Place the DTMMOD `.jar` file in your Minecraft `mods` folder (usually located at `~/.minecraft/mods` on Windows: `%appdata%\.minecraft\mods`).
 7. Launch Minecraft with the Fabric profile to load DTMMOD.
-
-## Features
-- **Farming Simulator 26**: Automates farming tasks.
-    - Converting mycelium to dirt paths (with mushroom breaking)
-    - Tilling blocks to farmland, and planting seeds/crops on farmland within configurable ranges.
-    - Supports Baritone pathing, tool/inventory management, light level checks, and chat feedback.
-
-- **Mapart Downloader**: Automatically detects item frames with filled maps in render distance, downloads individual map images as PNGs, and stitches connected clusters (by adjacency or name prefix) into larger images saved in DTMMOD/maps/ subfolders.
-    - Stitch by cluster or by name (work-in-progress, to seperate multiple mapart in single arrays)
-    - UUIDs are saved for clusters to prevent partially rendered issues. Stitch file will update if more IDs are rendered
-
-- **DataLogger Module**: Automatically tracks players entering or leaving the render range and logs direct messages to a file located in `~/.minecraft/DTMMOD/logs`.
-  - Logs are saved in a structured format for easy review.
-  - Configurable settings available through the **Meteor Client** interface (if enabled).
 
 ## Contributing
 Contributions are welcome! To contribute:
