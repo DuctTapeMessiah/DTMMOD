@@ -1,6 +1,9 @@
 name: Publish Development Build
 on: push
 
+permissions:
+  contents: write  # Grants GITHUB_TOKEN permission to create/update tags & releases
+
 jobs:
   build:
     runs-on: ubuntu-latest
