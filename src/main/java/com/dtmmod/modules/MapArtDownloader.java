@@ -6,6 +6,8 @@ import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.player.ChatUtils;
+import meteordevelopment.meteorclient.systems.config.Config;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.MapColor;
 import net.minecraft.client.world.ClientWorld;
@@ -13,6 +15,7 @@ import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.map.MapState;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
@@ -109,18 +112,24 @@ public class MapArtDownloader extends Module {
             ticksWaiting++;
             if (!areMapsLoaded()) {
                 if (ticksWaiting >= MAX_WAIT_TICKS) {
-                    info("Timeout waiting for maps to load after %d ticks.", MAX_WAIT_TICKS);
+                    if (Config.get().chatFeedback.get()) {
+                        ChatUtils.sendMsg(1, Formatting.GRAY, "Timeout waiting for maps to load after %d ticks.", MAX_WAIT_TICKS);
+                    }
                     mapsLoaded = true;
                 }
                 return;
             }
             mapsLoaded = true;
-            info("Maps loaded after %d ticks.", ticksWaiting);
+            if (Config.get().chatFeedback.get()) {
+                ChatUtils.sendMsg(1, Formatting.GRAY, "Maps loaded after %d ticks.", ticksWaiting);
+            }
         }
 
         if (itemFrames.isEmpty()) {
             itemFrames = new ArrayList<>(collectItemFrames(mc.world));
-            info("Found %d item frames.", itemFrames.size());
+            if (Config.get().chatFeedback.get()) {
+                ChatUtils.sendMsg(1, Formatting.GRAY, "Found %d item frames.", itemFrames.size());
+            }
 
             framesByFacing = new HashMap<>();
             for (ItemFrameEntity frame : itemFrames) {
@@ -153,7 +162,9 @@ public class MapArtDownloader extends Module {
         }
 
         if (currentIndex >= itemFrames.size()) {
-            info("Finished processing cycle. Saved %d files.", savedFilesThisCycle);
+            if (Config.get().chatFeedback.get()) {
+                ChatUtils.sendMsg(1, Formatting.GRAY, "Finished processing cycle. Saved %d files.", savedFilesThisCycle);
+            }
             itemFrames = new ArrayList<>();
             framesByFacing = new HashMap<>();
             currentIndex = 0;
@@ -216,7 +227,9 @@ public class MapArtDownloader extends Module {
         try {
             ImageIO.write(img, "png", outputFile);
             savedFilesThisCycle++;
-            info("Saved map %s", outputFile.getName());
+            if (Config.get().chatFeedback.get()) {
+                ChatUtils.sendMsg(1, Formatting.GRAY, "Saved map %s", outputFile.getName());
+            }
         } catch (IOException e) {
         }
     }
@@ -225,20 +238,22 @@ public class MapArtDownloader extends Module {
         for (var entry : framesByFacing.entrySet()) {
             Direction facing = entry.getKey();
             List<ItemFrameEntity> frames = entry.getValue();
-            info("Processing %d frames facing %s", frames.size(), facing);
+            if (Config.get().chatFeedback.get()) {
+                ChatUtils.sendMsg(1, Formatting.GRAY, "Processing %d frames facing %s", frames.size(), facing);
+            }
 
             if (stitchByName.get()) {
-                Map<String, List<ItemFrameEntity>> framesByPrefix = new HashMap<>();
+                Map<String, List<ItemFrameEntity>> framesByKey = new HashMap<>();
                 for (ItemFrameEntity frame : frames) {
                     String name = frame.getHeldItemStack().getCustomName() != null
                         ? frame.getHeldItemStack().getCustomName().getString() : "";
-                    String prefix = extractPrefix(name);
-                    framesByPrefix.computeIfAbsent(prefix, k -> new ArrayList<>()).add(frame);
+                    String key = extractCleanedKey(name);
+                    framesByKey.computeIfAbsent(key, k -> new ArrayList<>()).add(frame);
                 }
-                for (var prefixEntry : framesByPrefix.entrySet()) {
-                    List<ItemFrameEntity> prefixFrames = prefixEntry.getValue();
-                    if (prefixFrames.size() <= 1) continue;
-                    List<UUID> tempUUIDs = prefixFrames.stream()
+                for (var keyEntry : framesByKey.entrySet()) {
+                    List<ItemFrameEntity> keyFrames = keyEntry.getValue();
+                    if (keyFrames.size() <= 1) continue;
+                    List<UUID> tempUUIDs = keyFrames.stream()
                         .map(frame -> {
                             MapState mapState = getMapState(frame.getHeldItemStack(), mc.world);
                             return mapState != null ? generateMapUUID(mapState) : null;
@@ -246,8 +261,8 @@ public class MapArtDownloader extends Module {
                         .filter(Objects::nonNull)
                         .sorted()
                         .collect(Collectors.toList());
-                    String clusterId = prefixEntry.getKey();
-                    stitchCluster(prefixFrames, facing, clusterId, BYNAME_DIR, UUID_BYNAME_DIR);
+                    String clusterId = keyEntry.getKey();
+                    stitchCluster(keyFrames, facing, clusterId, BYNAME_DIR, UUID_BYNAME_DIR);
                 }
             } else {
                 for (var cluster : findConnectedClusters(frames, facing)) {
@@ -259,9 +274,12 @@ public class MapArtDownloader extends Module {
         }
     }
 
-    private String extractPrefix(String name) {
+    private String extractCleanedKey(String name) {
         if (name == null || name.isEmpty()) return "unnamed";
-        return name.split("\\s+")[0].replaceAll("[^a-zA-Z0-9_-]", "_");
+        String cleaned = name.replaceAll("[^a-zA-Z]", "").toLowerCase();
+        String[] words = cleaned.split("\\s+");
+        if (words.length == 0) return "unnamed";
+        return String.join("_", words);
     }
 
     private void stitchCluster(List<ItemFrameEntity> cluster, Direction facing, String clusterId, File stitchedDir, File uuidDir) {
@@ -289,7 +307,9 @@ public class MapArtDownloader extends Module {
                 return;
             } else {
                 if (stitchedFile.delete() && existingMetaFile.delete()) {
-                    info("Deleted mismatched stitch %s", stitchedFile.getName());
+                    if (Config.get().chatFeedback.get()) {
+                        ChatUtils.sendMsg(1, Formatting.GRAY, "Deleted mismatched stitch %s", stitchedFile.getName());
+                    }
                 }
             }
         }
@@ -303,7 +323,9 @@ public class MapArtDownloader extends Module {
                 Set<UUID> oldSet = loadUUIDSet(metaFile);
                 if (!oldSet.isEmpty() && currentSet.containsAll(oldSet) && oldSet.size() < currentSet.size()) {
                     if (pngFile.delete() && metaFile.delete()) {
-                        info("Deleted partial stitch %s for larger cluster %s", pngFile.getName(), stitchedFile.getName());
+                        if (Config.get().chatFeedback.get()) {
+                            ChatUtils.sendMsg(1, Formatting.GRAY, "Deleted partial stitch %s for larger cluster %s", pngFile.getName(), stitchedFile.getName());
+                        }
                     }
                 }
             }
@@ -352,7 +374,7 @@ public class MapArtDownloader extends Module {
                     ? pos.getX() - minX
                     : pos.getZ() - minZ;
                 gridY = maxY - pos.getY();
-                if (facing == Direction.EAST) {
+                if (facing == Direction.EAST || facing == Direction.NORTH) {
                     gridX = width - 1 - gridX;
                 }
             }
@@ -365,7 +387,9 @@ public class MapArtDownloader extends Module {
         try {
             ImageIO.write(stitchedImage, "PNG", stitchedFile);
             savedFilesThisCycle++;
-            info("Saved stitched map %s", stitchedFile.getName());
+            if (Config.get().chatFeedback.get()) {
+                ChatUtils.sendMsg(1, Formatting.GRAY, "Saved stitched map %s", stitchedFile.getName());
+            }
             File metaFile = new File(uuidDir, metaName);
             saveUUIDSet(metaFile, clusterUUIDs);
         } catch (IOException e) {
